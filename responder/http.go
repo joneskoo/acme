@@ -210,6 +210,11 @@ func init() {
 	if StandardWebrootPath == "" {
 		StandardWebrootPath = "/var/run/acme/acme-challenge"
 	}
+	// Expand home directory ~
+	if strings.SplitN(StandardWebrootPath, "/", 2)[0] == "~" {
+		home := os.Getenv("HOME")
+		StandardWebrootPath = home + StandardWebrootPath[1:]
+	}
 }
 
 func (s *httpResponder) getWebroots() map[string]struct{} {

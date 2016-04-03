@@ -186,6 +186,12 @@ func init() {
 	if RecommendedPath == "" {
 		RecommendedPath = "/var/lib/acme"
 	}
+	// Expand home directory ~
+	if strings.SplitN(RecommendedPath, "/", 2)[0] == "~" {
+		home := os.Getenv("HOME")
+		RecommendedPath = home + RecommendedPath[1:]
+	}
+
 }
 
 var storePermissions = []fdb.Permission{
